@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="users">
+	<resultMap id="UserResult" class="com.tb.domain.User">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="login_name" property="loginName" jdbcType="VARCHAR" />
+		<result column="login_password" property="loginPassword"
+			jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="findUserByLoginName" resultMap="UserResult"
+		parameterClass="java.lang.String">
+		select id, login_name, login_password, create_date, type, status
+		from users
+		where login_name = #loginName:VARCHAR#
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="UserResult"
+		parameterClass="java.lang.Integer">
+		select id, login_name, login_password, create_date, type, status
+		from users
+		where id = #id:INTEGER#
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from users
+		where id = #id:INTEGER#
+	</delete>
+
+
+	<insert id="insert" parameterClass="com.tb.domain.User">
+		insert into users (login_name, login_password, create_date, type,
+		status)
+		values (#loginName:VARCHAR#, #loginPassword:VARCHAR#, #createDate:TIMESTAMP#,
+		#type:INTEGER#, #status:INTEGER#)
+		<selectKey keyProperty="id" resultClass="java.lang.Integer">
+			select @@IDENTITY as id
+		</selectKey>
+	</insert>
+
+
+	<update id="updateByPrimaryKey" parameterClass="com.tb.domain.User">
+		update users
+		set login_name = #loginName:VARCHAR#,
+		login_password = #loginPassword:VARCHAR#,
+		create_date = #createDate:TIMESTAMP#,
+		type = #type:INTEGER#,
+		status = #status:INTEGER#
+		where id = #id:INTEGER#
+	</update>
+
+
+	<update id="updateByPrimaryKeySelective" parameterClass="com.tb.domain.User">
+		update users
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="loginName">
+				login_name = #loginName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="loginPassword">
+				login_password = #loginPassword:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="createDate">
+				create_date = #createDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="type">
+				type = #type:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+		</dynamic>
+		where id = #id:INTEGER#
+	</update>
+
+</sqlMap>

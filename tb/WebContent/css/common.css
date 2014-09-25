@@ -1,0 +1,37 @@
+﻿/*菜单栏部分*/
+
+a{text-decoration:none;}
+#body{width:1600px;margin:0 auto;}
+#top{background:url("../images/bj.jpg") no-repeat transparent;width:1600px;height:203px;margin:0 auto;}
+.logo{width:1000px;height:203px;background:url("../images/station.png") right 0 no-repeat transparent;margin:0 auto;}
+.logo img{margin-top:60px;}
+.nav{background:url("../images/yiji.png") no-repeat transparent;width:1600px;height:39px;margin:0 auto;}
+.nav-child{background:url("../images/erji.png") no-repeat transparent;width:1054px;height:51px;margin:0 auto;}
+.nav-child ul{margin-left:100px;line-height:35px;}
+.nav-child ul li{float:left;}
+.nav-child ul li a{color:#333;text-decoration:none;width:100px;display:inline-block;}
+.nav-child #d2,.nav-child #d3{display:none;}
+
+
+.nav ul{width:1000px;margin:0 auto;height:38px;line-height:36px;}
+.nav ul li{float:left;width:200px;text-align:center;}
+.nav ul li a{color:#fff;text-decoration:none;width:178px;height:38px;margin:0 auto;display:inline-block;}
+.nav ul li a:hover{background:url('../images/guang.png') no-repeat transparent;width:178px;height:38px;}
+.search{width:125px;height:23px;padding-left:10px;color:#aaa;margin-top:5px;}
+.sub{width:26px;height:28px;background:url('../images/search.png') no-repeat transparent;border:0px;margin-left:-13px;z-index:999;cursor:pointer; overflow: hidden;margin-top:5px}
+.sp li {width:140px;}
+
+.hover{background:url('../images/guang.png') no-repeat transparent;width:178px;height:38px;}
+
+/*中间部分*/
+#content{width:1000px;margin:0 auto;margin-top:15px;*margin-top:95px;}
+
+
+
+/*底部部分*/
+#footer{width:1000px;margin:0 auto;border-top:2px solid #dcdcdc;color:#787878;text-align:center;font-size:14px;margin-top:25px;}
+#footer div{line-height:24px;}
+
+
+/*子页面*/
+.content-right-top {background:url('../images/bluebg.png') no-repeat;width:768px;height:32px;line-height: 32px;}
