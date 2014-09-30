@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
+
 //import com.tb.common.PageBean;
 import com.tb.domain.BaseEntity;
 import com.ibatis.sqlmap.client.SqlMapClient;
@@ -113,7 +114,7 @@ public abstract class BaseDao<E extends BaseEntity> extends
 			throw new RuntimeException("Delete Error: " + e.getMessage());
 		}
 	}
-
+		
 	@SuppressWarnings("unchecked")
 	public List<E> find(String statementName, Object parameterObject) {
 		if (parameterObject == null) {
@@ -168,6 +169,13 @@ public abstract class BaseDao<E extends BaseEntity> extends
 					parameterObject);
 		}
 	}
+	
+	//public Integer  getCount(String statementName, Object parameterObject){
+	//	return getSqlMapClientTemplate().update(statementName);
+	//}
+	
+	
+	
 
 	public Object findOtherType(String statementName, Object parameterObject) {
 		try {
@@ -215,6 +223,12 @@ public abstract class BaseDao<E extends BaseEntity> extends
 	 * return pageBean; }
 	 */
 
+	@SuppressWarnings("unchecked")
+	public List<E> getList(String statementName, Map<String, Integer> params){		
+		return getSqlMapClientTemplate().queryForList(statementName, params); 
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public List findList(String statementName, Object parameterObject) {
 		if (parameterObject == null) {

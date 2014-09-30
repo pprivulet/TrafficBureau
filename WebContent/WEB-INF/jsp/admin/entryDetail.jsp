@@ -65,9 +65,9 @@
 					});
 				</script>
 				<ul class="nav nav-sidebar">
-					<li id="news"><a href="entry.html?category=1">新闻</a></li>
-					<li id="announcement"><a href="entry.html?category=2">公告</a></li>
-					<li id="policy"><a href="entry.html?category=3">政务公开</a></li>
+					<li id="news"><a href="entry.html?category=1&pageNum=1">新闻</a></li>
+					<li id="announcement"><a href="entry.html?category=2&pageNum=1">公告</a></li>
+					<li id="policy"><a href="entry.html?category=3&pageNum=1">政务公开</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

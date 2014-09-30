@@ -1,148 +1,163 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
-<sqlMap namespace="entries" >
-  <resultMap id="EntryResult" class="com.tb.domain.Entry" >
-    <result column="id" property="id" jdbcType="INTEGER" />
-    <result column="category" property="category" jdbcType="INTEGER" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="LONGVARCHAR" />    
-    <result column="created" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="published" property="publishDate" jdbcType="TIMESTAMP" />
-    <result column="updated" property="updateDate" jdbcType="TIMESTAMP" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="list_order" property="listOrder" jdbcType="INTEGER" />
-  </resultMap>
-  
-  <select id="getLastEntries" resultMap="EntryResult">
-  select id, title, category, created, published, updated, user_id, status, list_order,content 
-   from entries order by  created desc limit 6 
-  </select>
-  
-  <select id="findBaseByCondition" resultMap="EntryResult" parameterClass="java.util.Map">
-   select id, title, category, created, published, updated, user_id, status, list_order,content 
-   from entries
-  	<dynamic prepend="where">
-       <isNotNull prepend="AND" property="title">
-        	title like '%$title$%'
-      </isNotNull>
-       <isNotNull prepend="AND" property="category">
-       		category =  #category:INTEGER#
-       </isNotNull>
-       <isNotNull prepend="AND" property="status">
-       		status  = #status:INTEGER#
-       </isNotNull>
-   </dynamic>
-   <dynamic prepend="ORDER BY">
-      <isNotNull prepend="ORDER BY" property="preferredOrder">
-      $preferredOrder$
-      </isNotNull>
-    </dynamic>
-    <dynamic prepend="LIMIT">
-      <isNotNull prepend="," property="recordBegin">
-        #recordBegin:INTEGER#
-      </isNotNull>
-      <isNotNull prepend="," property="recordSize">
-        #recordSize:INTEGER#
-      </isNotNull>
-    </dynamic>
-  </select>
-  
-  <select id="findDataCount" resultClass="java.lang.Integer" parameterClass="java.util.Map">
-  	select count(id) from entries
-  	<dynamic prepend="where">
-       <isNotNull prepend="AND" property="title">
-        	title like '%$title$%'
-      </isNotNull>
-       <isNotNull prepend="AND" property="category">
-       		category  = #category:INTEGER#
-       </isNotNull>
-       <isNotNull prepend="AND" property="status">
-       		status  = #status:INTEGER#
-       </isNotNull>
-   </dynamic>
-   <dynamic prepend="ORDER BY">
-      <isNotNull prepend="ORDER BY" property="preferredOrder">
-      $preferredOrder$
-      </isNotNull>
-    </dynamic>
-  </select>
-  
-  <select id="selectByPrimaryKey" resultMap="EntryResult" parameterClass="java.lang.Integer" >
-   select id, title, category, created, published, updated, user_id, status, list_order,content 
-   from entries
-    where id = #id:INTEGER#
-  </select>
-  
-  <delete id="deleteByIds" parameterClass="java.lang.String">
-  	DELETE FROM entries
-    WHERE INSTR(#ids:VARCHAR#,CONCAT(CONCAT(',',id),','))>0
-  </delete>
-  
-  <delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer" >
-    delete from entries
-    where id = #id:INTEGER#
-  </delete>
-  
-  
-  <insert id="insert" parameterClass="com.tb.domain.Entry" >
-    insert into entries (id, title, category, created, published, updated, user_id, status,
-      list_order, content)
-    values (#id:INTEGER#, #title:VARCHAR#, #category:INTEGER#, #createDate:TIMESTAMP#,
-      #publishDate:TIMESTAMP#, #updateDate:TIMESTAMP#, #userId:INTEGER#, #status:INTEGER#,
-      #listOrder:INTEGER#, #content:LONGVARCHAR#)
-    <selectKey keyProperty="id" resultClass="java.lang.Integer">
-     select @@IDENTITY as id
-    </selectKey>
-  </insert>
-  
-  
-  <update id="updateByPrimaryKey" parameterClass="com.tb.domain.Entry" >
-    update entries
-    set title = #title:VARCHAR#,
-      category = #category:INTEGER#,
-      created = #createDate:TIMESTAMP#,
-      published = #publishDate:TIMESTAMP#,
-      updated = #updateDate:TIMESTAMP#,
-      user_id = #userId:INTEGER#,
-      status = #status:INTEGER#,
-      list_order = #listOrder:INTEGER#,
-      content = #content:LONGVARCHAR#
-    where id = #id:INTEGER#
-  </update>
-  
-  <update id="updateByPrimaryKeySelective" parameterClass="com.tb.domain.Entry" >
-    update entries
-    <dynamic prepend="set" >
-      <isNotNull prepend="," property="title" >
-        title = #title:VARCHAR#
-      </isNotNull>
-      <isNotNull prepend="," property="category" >
-        category = #category:INTEGER#
-      </isNotNull>
-      <isNotNull prepend="," property="createDate" >
-        created = #createDate:TIMESTAMP#
-      </isNotNull>
-      <isNotNull prepend="," property="updateDate" >
-        updated = #updateDate:TIMESTAMP#
-      </isNotNull>
-      <isNotNull prepend="," property="publishDate" >
-        published = #publishDate:TIMESTAMP#
-      </isNotNull>
-      <isNotNull prepend="," property="userId" >
-        user_id = #userId:INTEGER#
-      </isNotNull>
-      <isNotNull prepend="," property="status" >
-        status = #status:INTEGER#
-      </isNotNull>
-      <isNotNull prepend="," property="listOrder" >
-        list_order = #listOrder:INTEGER#
-      </isNotNull>
-      <isNotNull prepend="," property="content" >
-        content = #content:LONGVARCHAR#
-      </isNotNull>
-    </dynamic>
-    where id = #id:INTEGER#
-  </update>
-  
+<sqlMap namespace="entries">
+	<resultMap id="EntryResult" class="com.tb.domain.Entry">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="category" property="category" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="created" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="published" property="publishDate" jdbcType="TIMESTAMP" />
+		<result column="updated" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="list_order" property="listOrder" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="getLastEntries" resultMap="EntryResult">
+		select id, title, category, created, published, updated, user_id, status,
+		list_order,content
+		from entries order by created desc limit 6
+	</select>
+
+	<select id="getList" resultMap="EntryResult">
+		select id, title, category, created, published, updated, user_id, status,
+		list_order,content
+		from entries where category=#category:INTEGER# order by created desc limit
+		#begin:INTEGER# , #offset:INTEGER#
+	</select>
+
+	<select id="findBaseByCondition" resultMap="EntryResult"
+		parameterClass="java.util.Map">
+		select id, title, category, created, published, updated, user_id,
+		status, list_order,content
+		from entries
+		<dynamic prepend="where">
+			<isNotNull prepend="AND" property="title">
+				title like '%$title$%'
+			</isNotNull>
+			<isNotNull prepend="AND" property="category">
+				category = #category:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="AND" property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+		</dynamic>
+		<dynamic prepend="ORDER BY">
+			<isNotNull prepend="ORDER BY" property="preferredOrder">
+				$preferredOrder$
+			</isNotNull>
+		</dynamic>
+		<dynamic prepend="LIMIT">
+			<isNotNull prepend="," property="recordBegin">
+				#recordBegin:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="recordSize">
+				#recordSize:INTEGER#
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="findDataCount" resultClass="java.lang.Integer"
+		parameterClass="java.util.Map">
+		select count(id) from entries
+		<dynamic prepend="where">
+			<isNotNull prepend="AND" property="title">
+				title like '%$title$%'
+			</isNotNull>
+			<isNotNull prepend="AND" property="category">
+				category = #category:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="AND" property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+		</dynamic>
+		<dynamic prepend="ORDER BY">
+			<isNotNull prepend="ORDER BY" property="preferredOrder">
+				$preferredOrder$
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="EntryResult"
+		parameterClass="java.lang.Integer">
+		select id, title, category, created, published, updated, user_id, status,
+		list_order,content
+		from entries
+		where id = #id:INTEGER#
+	</select>
+
+	<delete id="deleteByIds" parameterClass="java.lang.String">
+		DELETE FROM entries
+		WHERE INSTR(#ids:VARCHAR#,CONCAT(CONCAT(',',id),','))>0
+	</delete>
+
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from entries
+		where id = #id:INTEGER#
+	</delete>
+
+
+	<insert id="insert" parameterClass="com.tb.domain.Entry">
+		insert into entries (id, title, category, created, published, updated,
+		user_id, status,
+		list_order, content)
+		values (#id:INTEGER#, #title:VARCHAR#, #category:INTEGER#,
+		#createDate:TIMESTAMP#,
+		#publishDate:TIMESTAMP#, #updateDate:TIMESTAMP#, #userId:INTEGER#, #status:INTEGER#,
+		#listOrder:INTEGER#, #content:LONGVARCHAR#)
+		<selectKey keyProperty="id" resultClass="java.lang.Integer">
+			select @@IDENTITY as id
+		</selectKey>
+	</insert>
+
+
+	<update id="updateByPrimaryKey" parameterClass="com.tb.domain.Entry">
+		update entries
+		set title = #title:VARCHAR#,
+		category = #category:INTEGER#,
+		created = #createDate:TIMESTAMP#,
+		published = #publishDate:TIMESTAMP#,
+		updated = #updateDate:TIMESTAMP#,
+		user_id = #userId:INTEGER#,
+		status = #status:INTEGER#,
+		list_order = #listOrder:INTEGER#,
+		content = #content:LONGVARCHAR#
+		where id = #id:INTEGER#
+	</update>
+
+	<update id="updateByPrimaryKeySelective" parameterClass="com.tb.domain.Entry">
+		update entries
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="title">
+				title = #title:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="category">
+				category = #category:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="createDate">
+				created = #createDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="updateDate">
+				updated = #updateDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="publishDate">
+				published = #publishDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="userId">
+				user_id = #userId:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="listOrder">
+				list_order = #listOrder:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="content">
+				content = #content:LONGVARCHAR#
+			</isNotNull>
+		</dynamic>
+		where id = #id:INTEGER#
+	</update>
+
 </sqlMap>

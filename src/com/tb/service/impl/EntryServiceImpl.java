@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 
+
 import com.tb.dao.EntryDao;
 //import com.anyuan.common.PageBean;
 import com.tb.domain.Entry;
@@ -64,8 +65,17 @@ public class EntryServiceImpl implements EntryService {
 	}
 
 	@Override
-	public List<Entry> getLastEntries() {
-		return entryDao.getLastEntries();
+	public List<Entry> getLastEntries(int number, int category) {
+		return entryDao.getLastEntries(number,category);
 	}
-
+	
+	@Override
+	public List<Entry> getEntryList(int begin, int offset,int category){
+		return entryDao.getEntryList(begin, offset, category);
+	}
+	
+	@Override
+	public Integer getEntryNum(int category){
+		return entryDao.getTotalNum(category);
+	}
 }

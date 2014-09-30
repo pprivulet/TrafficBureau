@@ -26,7 +26,6 @@
 <!-- Custom styles for this template -->
 <link href="<%=basePath%>admin/dashboard.css" rel="stylesheet">
 <script src="<%=basePath%>js/jquery-1.8.2.min.js"></script>
-
 </head>
 
 <body>
@@ -64,11 +63,15 @@
 					});
 				</script>
 				<ul class="nav nav-sidebar">
-					<li id="news"><a href="entry.html?category=1">新闻</a></li>
-					<li id="announcement"><a href="entry.html?category=2">公告</a></li>
-					<li id="policy"><a href="entry.html?category=3">政务公开</a></li>
+					<li id="news"><a href="entry.html?category=1&pageNum=1">新闻</a></li>
+					<li id="announcement"><a
+						href="entry.html?category=2&pageNum=1">公告</a></li>
+					<li id="policy"><a href="entry.html?category=3&pageNum=1">政务公开</a></li>
 				</ul>
 			</div>
+
+
+
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header">列表</h1>
 				<div class="table-responsive">
@@ -93,29 +96,45 @@
 									<td>${entry.publishDate}</td>
 									<td>${entry.updateDate}</td>
 									<td>
-										<button type="button" class="btn btn-info btn-xs">浏览</button>
-										<button type="button" class="btn btn-primary btn-xs">编辑</button>
-										<button type="button" class="btn btn-danger btn-xs">删除</button>
+										<button type="button" class="btn btn-info btn-xs" onclick="">浏览</button>
+										<button type="button" class="btn btn-primary btn-xs"
+											onclick="">编辑</button>
+										<button type="button" class="btn btn-danger btn-xs" onclick="">删除</button>
 									</td>
 								</tr>
 
 							</c:forEach>
 						</tbody>
 					</table>
+
 					<div class="text-left">
-					    <button type="button" class="btn btn-default" onClick="location.href='entryAdd.html?category=${idx}'">
-                            <span class="glyphicon glyphicon-plus"></span> 添加
-                        </button>						
+						<button type="button" class="btn btn-default"
+							onClick="location.href='entryAdd.html?category=${idx}'">
+							<span class="glyphicon glyphicon-plus"></span> 添加
+						</button>
 					</div>
 					<div class="text-center">
 						<ul class="pagination">
-							<li><a href="#">&laquo;</a></li>
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">&raquo;</a></li>
+							<li><a href="entry.html?category=${idx}&pageNum=1">首页</a></li>
+							<c:if test="${currentPage-1 > 0}">
+								<li><a href="entry.html?category=${idx}&pageNum=${currentPage-1}">&laquo;</a></li>
+							</c:if>
+							<c:forEach var="i" begin="${pageBegin}" end="${pageLast}">
+								<c:choose>
+									<c:when test="${i == currentPage}">
+       									<li class=active><a href='entry.html?category=${idx}&pageNum=<c:out value="${i}"/>'>
+       									<c:out value="${i}" /></a></li>
+    							    </c:when>									
+									<c:otherwise>
+        								<li><a href='entry.html?category=${idx}&pageNum=<c:out value="${i}"/>'>
+        								<c:out value="${i}" /></a></li>
+    								</c:otherwise>
+								</c:choose>								
+							</c:forEach>
+							<c:if test="${currentPage+1 < pageCount}">
+								<li><a href="entry.html?category=${idx}&pageNum=${currentPage+1}">&raquo;</a></li>
+							</c:if>
+							<li><a href="entry.html?category=${idx}&pageNum=${pageCount}">尾页</a></li>
 						</ul>
 					</div>
 				</div>

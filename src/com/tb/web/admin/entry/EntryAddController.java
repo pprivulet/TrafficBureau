@@ -27,7 +27,10 @@ public class EntryAddController {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView entryAddPage(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		int category = Integer.parseInt(request.getParameter("category"));			
+		int category = Integer.parseInt(request.getParameter("category"));
+		if(category>10 && category<1){
+			return new ModelAndView("error");
+		}
 		Map<String, Object> map = new HashMap<String, Object>();		
 		map.put("idx", category);
 		return new ModelAndView("admin/entryAdd", map);
@@ -56,11 +59,7 @@ public class EntryAddController {
 		entry.setTitle(null == title || "".equals(title.trim()) ? null : title.trim());
 		entry.setStatus(null == status || "".equals(status.trim()) ? 0 : Integer.parseInt(status));
 		entry.setContent(null == content || "".equals(content.trim()) ? null : content.trim());
-		entry.setListOrder(0);
-		//entry.setCreateDate(new Date());
-		//if(status !=null&&!"".equals(status.trim())){
-			//entry.setPublishDate(new Date());
-		//}
+		entry.setListOrder(0);		
 		return entry;
 	}
 	

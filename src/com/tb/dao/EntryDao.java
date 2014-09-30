@@ -3,6 +3,8 @@ package com.tb.dao;
 import java.util.List;
 import java.util.Map;
 
+
+
 //import com.tb.common.PageBean;
 import com.tb.domain.Entry;;
 
@@ -22,7 +24,11 @@ public interface EntryDao {
 
 	//PageBean findNewsByCondition(Map<String, Object> condition);
 
-	List<Entry> getLastEntries();
+	List<Entry> getLastEntries(int number, int category);
+	
+	List<Entry> getEntryList(int begin, int offset, int category);
 
+	Integer getTotalNum(int category);
+		
 }
 

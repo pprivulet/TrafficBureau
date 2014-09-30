@@ -38,7 +38,7 @@ public class LoginController {
 			try {
 				User user = userService.findUserByLoginName(loginname.trim());
 				if (password.equals(user.getLoginPassword()))
-					return new ModelAndView("redirect:/admin/entry.html?category=1");
+					return new ModelAndView("redirect:/admin/entry.html?category=1&pageNum=1");
 				else
 					return new ModelAndView("redirect:/admin/login.html");
 			} catch (Exception e) {
