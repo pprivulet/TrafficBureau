@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ueditor demo</title>
+</head>
+
+<body>
+    <!-- ¼ÓÔØ±à¼­Æ÷µÄÈÝÆ÷ -->
+	 <form action="server.php" method="post">
+    <script id="container" name="content" type="text/plain">    
+    </script> </form>
+    <!-- ÅäÖÃÎÄ¼þ -->
+    <script type="text/javascript" src="ueditor.config.js"></script>
+    <!-- ±à¼­Æ÷Ô´ÂëÎÄ¼þ -->
+    <script type="text/javascript" src="ueditor.all.js"></script>
+    <!-- ÊµÀý»¯±à¼­Æ÷ -->
+    <script type="text/javascript">
+        var ue = UE.getEditor('container', {
+			toolbars: [
+				['fullscreen', 'source', '|', 'undo', 'redo', '|',
+            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+            'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+            'directionalityltr', 'directionalityrtl', 'indent', '|',
+            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+            'link', 'unlink', 'anchor', '|',            
+            'horizontal', 'date', 'time','|',            
+            'print','help', 'drafts']
+			],
+			autoHeightEnabled: true,
+			autoFloatEnabled: true
+		});
+    </script>
+</body>
+
+</html>

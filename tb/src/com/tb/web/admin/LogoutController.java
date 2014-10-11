@@ -1,0 +1,23 @@
+package com.tb.web.admin;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.tb.common.Constant;
+
+@Controller
+@RequestMapping("/admin/logout.html")
+public class LogoutController {
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView showAnnoucementPage(HttpServletRequest request,HttpServletResponse response)  throws Exception {			
+		HttpSession session = request.getSession();
+		session.setAttribute(Constant.RUN_DATA, null);
+		return new ModelAndView("redirect:/login.html");		
+	}
+}
