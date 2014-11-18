@@ -16,5 +16,12 @@
 	
 	<sqlMap resource="com/tb/dao/impl/map/user_SqlMap.xml"/>
 	<sqlMap resource="com/tb/dao/impl/map/entry_SqlMap.xml"/>
-		
+	<sqlMap resource="com/tb/dao/impl/map/file_SqlMap.xml"/>
+	<sqlMap resource="com/tb/dao/impl/map/mail_SqlMap.xml"/>
+	<sqlMap resource="com/tb/dao/impl/map/message_SqlMap.xml"/>
+	<sqlMap resource="com/tb/dao/impl/map/votetheme_SqlMap.xml"/>
+	<sqlMap resource="com/tb/dao/impl/map/votequiz_SqlMap.xml"/>
+	<sqlMap resource="com/tb/dao/impl/map/voteoption_SqlMap.xml"/>
+	
+	
 </sqlMapConfig>

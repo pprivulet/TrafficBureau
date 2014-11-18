@@ -1,4 +1,4 @@
-ï»¿/*èœå•æ éƒ¨åˆ†*/
+/*²Ëµ¥À¸²¿·Ö*/
 
 a{text-decoration:none;}
 #body{width:1600px;margin:0 auto;}
@@ -23,15 +23,16 @@ a{text-decoration:none;}
 
 .hover{background:url('../images/guang.png') no-repeat transparent;width:178px;height:38px;}
 
-/*ä¸­é—´éƒ¨åˆ†*/
+/*ÖĞ¼ä²¿·Ö*/
 #content{width:1000px;margin:0 auto;margin-top:15px;*margin-top:95px;}
 
 
 
-/*åº•éƒ¨éƒ¨åˆ†*/
+/*µ×²¿²¿·Ö*/
 #footer{width:1000px;margin:0 auto;border-top:2px solid #dcdcdc;color:#787878;text-align:center;font-size:14px;margin-top:25px;}
 #footer div{line-height:24px;}
 
 
-/*å­é¡µé¢*/
+/*×ÓÒ³Ãæ*/
 .content-right-top {background:url('../images/bluebg.png') no-repeat;width:768px;height:32px;line-height: 32px;}
+

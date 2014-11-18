@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="mails">
+	<resultMap id="MailResult" class="com.tb.domain.Mail">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="mail_address" property="mailAddr" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="job" property="job" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+		<result column="replied" property="replied" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="getLastMails" resultMap="MailResult">
+		select id, name, phone, mail_address, address, job, title, type,
+		content,
+		created, replied, status
+		from mails
+		where
+		category=#category:INTEGER# and
+		status>0
+		<dynamic>
+			<isNotNull prepend="AND" property="importance">
+				importance =
+				#importance:INTEGER#
+			</isNotNull>
+		</dynamic>
+		order by created desc
+		limit #limit:INTEGER#
+	</select>
+
+	<select id="getList" resultMap="MailResult">
+		select id, name, phone,
+		mail_address, address, job, title, type,
+		content,
+		created, replied,
+		status
+		from mails
+		order by created desc limit
+		#begin:INTEGER#,
+		#offset:INTEGER#
+	</select>
+
+	<select id="findDataCount" resultClass="java.lang.Integer"
+		parameterClass="java.util.Map">
+		select count(id) from mails
+		<dynamic prepend="where">		
+			<isNotNull prepend="AND" property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+		</dynamic>		
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="MailResult"
+		parameterClass="java.lang.Integer">
+		select id, name, phone, mail_address, address, job,
+		title, type,
+		content,
+		created, replied, status
+		from mails
+		where
+		id =
+		#id:INTEGER#
+	</select>
+
+	<delete id="deleteByIds" parameterClass="java.lang.String">
+		DELETE FROM mails
+		WHERE
+		INSTR(#ids:VARCHAR#,CONCAT(CONCAT(',',id),','))>0
+	</delete>
+
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from
+		mails
+		where id = #id:INTEGER#
+	</delete>
+
+
+	<insert id="insert" parameterClass="com.tb.domain.Mail">
+		insert into mails (name, phone, mail_address, address, job, title,
+		type,
+		content,
+		created, replied, status)
+		values (#name:VARCHAR#,
+		#phone:VARCHAR#, #mailAddr:VARCHAR#,
+		#address:VARCHAR#,
+		#job:VARCHAR#,
+		#title:VARCHAR#,
+		#type:INTEGER#,
+		#content:LONGVARCHAR#,
+		#created:TIMESTAMP#,
+		#replied:TIMESTAMP#,
+		#status:INTEGER#)
+		<selectKey keyProperty="id" resultClass="java.lang.Integer">
+			select @@IDENTITY as
+			id
+		</selectKey>
+	</insert>
+
+
+	<update id="updateStatusByPrimaryKey" parameterClass="com.tb.domain.Mail">
+		update mails
+		set replied = #replied:TIMESTAMP#,
+		status = #status:INTEGER#
+		where
+		id = #id:INTEGER#
+	</update>
+	
+</sqlMap>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="votethemes">
+	<resultMap id="VoteThemeResult" class="com.tb.domain.VoteTheme">
+		<result column="id" property="id" jdbcType="INTEGER" />			
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+		<result column="published" property="published" jdbcType="TIMESTAMP" />
+		<result column="updated" property="updated" jdbcType="TIMESTAMP" />
+		<result column="closed" property="closed" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		
+	</resultMap>
+
+	
+	<select id="getClosedList" resultMap="VoteThemeResult">
+		select id, content, created, published, updated, closed, status		
+		from vote_themes 
+		where status=2		
+		order by closed desc limit
+		#begin:INTEGER# , #offset:INTEGER#
+	</select>	
+	
+	
+	<select id="getList" resultMap="VoteThemeResult">
+		select id, content, created, published, updated, closed, status		
+		from vote_themes
+		order by created desc limit
+		#begin:INTEGER# , #offset:INTEGER#
+	</select>
+
+	<select id="findBaseByCondition" resultMap="VoteThemeResult"
+		parameterClass="java.util.Map">
+		select id, content, created, published, updated, closed, status		
+		from vote_themes
+		<dynamic prepend="where">			
+			<isNotNull prepend="AND" property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+		</dynamic>		
+	</select>
+
+	<select id="findDataCount" resultClass="java.lang.Integer"
+		parameterClass="java.util.Map">
+		select count(id) from vote_themes
+		<dynamic prepend="where">			
+			<isNotNull prepend="AND" property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+		</dynamic>		
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="VoteThemeResult"
+		parameterClass="java.lang.Integer">
+		select id, content, created, published, updated, closed, status		
+		from vote_themes
+		where id = #id:INTEGER#
+	</select>
+	
+
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from vote_themes
+		where id = #id:INTEGER#
+	</delete>
+
+
+	<insert id="insert" parameterClass="com.tb.domain.VoteTheme">
+		insert into vote_themes (content, created, published, updated, closed, status)
+		values (#content:LONGVARCHAR#,
+		#created:TIMESTAMP#,
+		#published:TIMESTAMP#, 
+		#updated:TIMESTAMP#,
+		#closed:TIMESTAMP#,
+		#status:INTEGER#
+		 )
+		<selectKey keyProperty="id" resultClass="java.lang.Integer">
+			select @@IDENTITY as id
+		</selectKey>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterClass="com.tb.domain.VoteTheme">
+		update vote_themes
+		set content = #content:LONGVARCHAR#,
+		created = #created:TIMESTAMP#,
+		published = #published:TIMESTAMP#,
+		updated = #updated:TIMESTAMP#,
+		closed = #closed:TIMESTAMP#,
+		status = #status:INTEGER#		
+		where id = #id:INTEGER#
+	</update>
+	
+
+</sqlMap>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="voteoptions">
+	<resultMap id="VoteOptionResult" class="com.tb.domain.VoteOption">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="option_index" property="index" jdbcType="INTEGER" />
+		<result column="vote_theme_id" property="voteThemeId" jdbcType="INTEGER" />
+		<result column="vote_quiz_id" property="voteQuizId" jdbcType="INTEGER" />
+		<result column="vote" property="vote" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+		<result column="updated" property="updated" jdbcType="TIMESTAMP" />		
+	</resultMap>
+
+	<select id="getListByThemeAndIndex" resultMap="VoteOptionResult">
+		select id, option_index, vote_theme_id, vote_quiz_id, vote,
+		content, created, updated
+		from vote_options
+		where 
+		vote_theme_id = #themeId:INTEGER# and option_index = #index:INTEGER#
+		order by created desc
+	</select>
+	
+	<select id="getListByTheme" resultMap="VoteOptionResult">
+		select id, option_index, vote_theme_id, vote_quiz_id, vote,
+		content, created, updated
+		from vote_options
+		where 
+		vote_theme_id = #themeId:INTEGER#
+		order by created desc
+	</select>
+	
+	<select id="getListByQuiz" resultMap="VoteOptionResult">
+		select id, option_index, vote_theme_id, vote_quiz_id, vote,
+		content, created, updated
+		from vote_options
+		where 
+		vote_quiz_id = #quizId:INTEGER#
+		order by created desc
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="VoteOptionResult"
+		parameterClass="java.lang.Integer">
+		select id, option_index, vote_theme_id, vote_quiz_id, vote,
+		content, created, updated
+		from vote_options
+		where id = #id:INTEGER#
+	</select>
+	
+	<select id="selectByThemeQuizAndIndex" resultMap="VoteOptionResult"
+		parameterClass="java.lang.Integer">
+		select id, option_index, vote_theme_id, vote_quiz_id, vote,
+		content, created, updated
+		from vote_options
+		where vote_quiz_id = #quizId:INTEGER# and vote_theme_id = #themeId:INTEGER#
+		and option_index = #index:INTEGER#
+	</select>
+	
+
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from
+		vote_options
+		where id = #id:INTEGER#
+	</delete>
+	
+	<delete id="deleteByThemeId" parameterClass="java.lang.Integer">
+		delete from
+		vote_options
+		where vote_theme_id = #themeId:INTEGER#
+	</delete>
+	
+	<delete id="deleteByQuizId" parameterClass="java.lang.Integer">
+		delete from
+		vote_options
+		where vote_quiz_id = #quizId:INTEGER#
+	</delete>
+	
+
+	<insert id="insert" parameterClass="com.tb.domain.VoteOption">
+		insert into vote_options (option_index, vote_theme_id, vote_quiz_id, vote,
+		content, created, updated)
+		values (#index:INTEGER#,
+		#voteThemeId:INTEGER#,
+		#voteQuizId:INTEGER#,
+		#vote:INTEGER#,
+		#content:LONGVARCHAR#,
+		#created:TIMESTAMP#,		
+		#updated:TIMESTAMP#		
+		)
+		<selectKey keyProperty="id" resultClass="java.lang.Integer">
+			select @@IDENTITY as
+			id
+		</selectKey>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterClass="com.tb.domain.VoteOption">
+		update
+		vote_options
+		set option_index = #index:INTEGER#,
+		vote_theme_id= #voteThemeId:INTEGER#,
+		vote_quiz_id= #voteQuizId:INTEGER#,
+		vote = #vote:INTEGER#,
+		content = #content:LONGVARCHAR#,
+		created = #created:TIMESTAMP#,		
+		updated = #updated:TIMESTAMP#			
+		where id = #id:INTEGER#
+	</update>
+
+
+</sqlMap>

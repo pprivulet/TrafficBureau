@@ -14,22 +14,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tb.domain.Entry;
+import com.tb.domain.Phile;
 import com.tb.service.EntryService;
+import com.tb.service.PhileService;
 
 @Controller
 @RequestMapping("/admin/entryUnpublish.html")
 public class EntryUnpublishController {
+	
 	@Autowired
 	private EntryService entryService;
+	
+	@Autowired
+	private PhileService fileService;
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView entryDetailPage(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		int id = Integer.parseInt(request.getParameter("id"));
-		int ctg = Integer.parseInt(request.getParameter("category"));		
+		int ctg = Integer.parseInt(request.getParameter("category"));
+		int pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		Entry entry = entryService.findById(id);
 		entry.setStatus(0);				
 		entry.setPublishDate(null);		
 		entryService.updateEntry(entry);
-		return new ModelAndView("redirect:/admin/entry.html?category="+ctg+"&pageNum=1");
+		Phile file = fileService.findByEntryID(id);
+		if(file != null){
+			file.setStatus(0);
+			fileService.update(file);
+		}			
+		file = fileService.findByEntryID(id);
+		System.out.println(file);		
+		return new ModelAndView("redirect:/admin/entry.html?category="+ctg+"&pageNum="+pageNum);
 	}
 }

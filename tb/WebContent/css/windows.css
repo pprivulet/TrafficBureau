@@ -1,4 +1,4 @@
-﻿#content{margin-top:25px;*margin-top:100px;}
+#content{margin-top:25px;*margin-top:100px;}
 .content-left{width:200px;background:#ECF3FB;height:490px;}
 .content-left a{color:#333;}
 .content-left .cont-left-title{text-align:center;font-size:22px;width:200px;line-height:62px;color:#4785d0}
@@ -11,4 +11,10 @@
 
 .bnews-head{margin-top:10px;}
 .newsline{line-height:28px;border-bottom:1px dashed #cdcdcd;height:28px;font-size:14px;}
-.sbg{display:inline-block; width: 78px;border-bottom:3px solid #448bc9;text-align:center;line-height:30px;}
+.sbg{display:inline-block; width: 78px;border-bottom:3px solid #448bc9;text-align:center;line-height:30px;}.sbg {
+    border-bottom: 3px solid #448BC9;
+    display: inline-block;
+    line-height: 30px;
+    padding: 0 8px;
+    text-align: center;
+}

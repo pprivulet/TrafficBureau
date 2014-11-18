@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="votequizzes">
+	<resultMap id="VoteQuizResult" class="com.tb.domain.VoteQuiz">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="vote_theme_id" property="voteThemeId"
+			jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+		<result column="updated" property="updated" jdbcType="TIMESTAMP" />		
+	</resultMap>
+
+	<select id="getList" resultMap="VoteQuizResult">
+		select id, vote_theme_id,
+		content, created, updated
+		from vote_quizzes
+		where 
+		vote_theme_id = #themeId:INTEGER#
+		order by created asc
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="VoteQuizResult"
+		parameterClass="java.lang.Integer">
+		select id, vote_theme_id, content, created, updated
+		from vote_quizzes
+		where id = #id:INTEGER#
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from
+		vote_quizzes
+		where id = #id:INTEGER#
+	</delete>
+	
+	<delete id="deleteByThemeId" parameterClass="java.lang.Integer">
+		delete from
+		vote_quizzes
+		where vote_theme_id = #themeId:INTEGER#
+	</delete>
+
+	<insert id="insert" parameterClass="com.tb.domain.VoteQuiz">
+		insert into vote_quizzes (vote_theme_id, content, created, updated)
+		values (
+		#voteThemeId:INTEGER#,
+		#content:LONGVARCHAR#,
+		#created:TIMESTAMP#,		
+		#updated:TIMESTAMP#
+					
+		)
+		<selectKey keyProperty="id" resultClass="java.lang.Integer">
+			select @@IDENTITY as
+			id
+		</selectKey>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterClass="com.tb.domain.VoteQuiz">
+		update
+		vote_quizzes
+		set vote_theme_id= #voteThemeId:INTEGER#,
+		content = #content:LONGVARCHAR#,
+		created = #created:TIMESTAMP#,		
+		updated = #updated:TIMESTAMP#
+		
+		where id = #id:INTEGER#
+	</update>
+
+
+</sqlMap>

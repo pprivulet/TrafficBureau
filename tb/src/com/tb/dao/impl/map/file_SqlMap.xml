@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="files">
+	<resultMap id="FileResult" class="com.tb.domain.Phile">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="entry_id" property="entryId" jdbcType="INTEGER" />
+		<result column="category" property="category" jdbcType="INTEGER" />
+		<result column="save_path" property="path" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+
+
+	<select id="getList" resultMap="FileResult">
+		select id, entry_id, category,
+		save_path, type, create_date, status
+		from files where
+		category=#category:INTEGER# and status=#status:INTEGER# order by
+		create_date desc
+	</select>
+	
+	<select id="getSlideList" resultMap="FileResult">
+		select id, entry_id, category,
+		save_path, type, create_date, status
+		from files where
+		category=#category:INTEGER# and status=2 and type=0
+		order by
+		create_date desc
+		limit #limit:INTEGER#
+	</select>
+	
+	
+	
+	
+	
+	<select id="findDataCount" resultClass="java.lang.Integer"
+		parameterClass="java.util.Map">
+		select count(id) from files
+		<dynamic prepend="where">			
+			<isNotNull prepend="AND" property="category">
+				category = #category:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="AND" property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+		</dynamic>		
+	</select>
+
+	<select id="selectByEntryId" resultMap="FileResult"
+		parameterClass="java.lang.Integer">
+		select id, entry_id, category, save_path, type,
+		create_date, status
+		from files
+		where entry_id = #entryId:INTEGER#
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="FileResult"
+		parameterClass="java.lang.Integer">
+		select id, entry_id, category, save_path, type,
+		create_date, status
+		from files
+		where id = #id:INTEGER#
+	</select>
+
+	<delete id="deleteByIds" parameterClass="java.lang.String">
+		DELETE FROM files
+		WHERE
+		INSTR(#ids:VARCHAR#,CONCAT(CONCAT(',',id),','))>0
+	</delete>
+
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from files
+		where id = #id:INTEGER#
+	</delete>
+
+	<delete id="deleteByEntryId" parameterClass="java.lang.Integer">
+		delete from files
+		where entry_id = #entryId:INTEGER#
+	</delete>
+
+
+	<insert id="insert" parameterClass="com.tb.domain.Phile">
+		insert into files (entry_id, category, save_path, type, create_date,
+		status)
+		values
+		(#entryId:INTEGER#, #category:INTEGER#, #path:VARCHAR#,
+		#type:INTEGER#, #createDate:TIMESTAMP#,#status:INTEGER#)
+		<selectKey keyProperty="id" resultClass="java.lang.Integer">
+			select @@IDENTITY as
+			id
+		</selectKey>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterClass="com.tb.domain.Phile">
+		update files
+		set
+		entry_id = #entryId:INTEGER#,
+		category = #category:INTEGER#,
+		save_path =
+		#path:VARCHAR#,
+		type = #type:INTEGER#,
+		create_date = #createDate:TIMESTAMP#,
+		type = #type:INTEGER#,
+		status =
+		#status:INTEGER#
+		where id = #id:INTEGER#
+	</update>
+
+</sqlMap>

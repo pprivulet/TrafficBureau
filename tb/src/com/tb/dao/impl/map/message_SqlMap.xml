@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="messages">
+	<resultMap id="MessageResult" class="com.tb.domain.Message">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+		<result column="reply" property="reply" jdbcType="LONGVARCHAR" />
+		<result column="replied" property="replied" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="getAllMessages" resultMap="MessageResult">
+		select id, name, content,
+		type, title,
+		created, reply, replied, status
+		from messages
+		where status>0
+		order by created desc
+	</select>
+
+	<select id="getList" resultMap="MessageResult">
+		select id, name, content, type, title,
+		created, reply, replied, status
+		from
+		messages
+		order by created desc limit
+		#begin:INTEGER#,
+		#offset:INTEGER#
+	</select>
+
+	<select id="findDataCount" resultClass="java.lang.Integer"
+		parameterClass="java.util.Map">
+		select count(id) from messages
+		<dynamic prepend="where">
+			<isNotNull prepend="AND" property="status">
+				status = #status:INTEGER#
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="MessageResult"
+		parameterClass="java.lang.Integer">
+		select id, name, content, type, title,
+		created, reply, replied, status
+		from
+		messages
+		where
+		id =
+		#id:INTEGER#
+	</select>
+
+	<delete id="deleteByIds" parameterClass="java.lang.String">
+		DELETE FROM messages
+		WHERE
+		INSTR(#ids:VARCHAR#,CONCAT(CONCAT(',',id),','))>0
+	</delete>
+
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from
+		messages
+		where id = #id:INTEGER#
+	</delete>
+
+
+	<insert id="insert" parameterClass="com.tb.domain.Message">
+		insert into messages (name, content, type, title,
+		created, reply, replied, status)
+		values (#name:VARCHAR#,	
+		#content:LONGVARCHAR#,
+		#type:INTEGER#,
+		#title:VARCHAR#,
+		#created:TIMESTAMP#,		
+		#reply:LONGVARCHAR#,		
+		#replied:TIMESTAMP#,
+		#status:INTEGER#)
+		<selectKey keyProperty="id" resultClass="java.lang.Integer">
+			select @@IDENTITY as
+			id
+		</selectKey>
+	</insert>
+
+
+	<update id="updateStatusByPrimaryKey" parameterClass="com.tb.domain.Message">
+		update
+		messages
+		set replied = #replied:TIMESTAMP#,
+		reply = #reply:LONGVARCHAR#,
+		status = #status:INTEGER#
+		where
+		id = #id:INTEGER#
+	</update>
+
+</sqlMap>

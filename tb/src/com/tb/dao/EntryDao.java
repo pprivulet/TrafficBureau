@@ -1,16 +1,15 @@
 package com.tb.dao;
 
 import java.util.List;
-import java.util.Map;
-
-
 
 //import com.tb.common.PageBean;
-import com.tb.domain.Entry;;
+import com.tb.domain.Entry;
+
+
 
 public interface EntryDao {
 
-	//PageBean findNewsListBackend(Map<String, Object> paramsMap);
+	// PageBean findNewsListBackend(Map<String, Object> paramsMap);
 
 	Integer deleteById(int id);
 
@@ -22,14 +21,16 @@ public interface EntryDao {
 
 	Integer insertEntry(Entry entry);
 
-	//PageBean findNewsByCondition(Map<String, Object> condition);
+	// PageBean findNewsByCondition(Map<String, Object> condition);
 
-	List<Entry> getLastEntries(int number, int category);
+	List<Entry> getLastEntries(int number, int category, int importance);
 	
+	List<Entry> searchEntries(String title);
+
 	List<Entry> getEntryList(int begin, int offset, int category);
+	
+	List<Entry> getPublishedEntryList(int begin, int offset, int category);
 
-	Integer getTotalNum(int category);
-		
+	Integer getTotalNum(int category);	
+
 }
-
-

@@ -49,6 +49,8 @@ public interface PagingService {
 	void setPageDelta(int pageDelta);
 
 	List getEntryList(int category);
+	
+	List getPublishedEntryList(int category);
 
 	int getTotalEntryCount(int category);
 }

@@ -1,3 +1,6 @@
 eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/jsp/home.jsp=UTF-8
 encoding//WebContent/WEB-INF/jsp/login.jsp=UTF-8
+encoding//WebContent/WEB-INF/jsp/management.jsp=UTF-8
+encoding//WebContent/WEB-INF/jsp/news.jsp=UTF-8
 encoding//src/com/tb/dao/IDao.java=UTF-8

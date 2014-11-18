@@ -1,6 +1,4 @@
-package com.tb.domain; 
-
-import java.util.Date;
+package com.tb.domain;  
 
 public class User extends BaseEntity {
 

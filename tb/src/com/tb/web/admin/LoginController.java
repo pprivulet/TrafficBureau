@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,10 +38,14 @@ public class LoginController {
 		String password = request.getParameter("password");
 		PrintWriter out = response.getWriter();
 		if (loginname != null && !"".equals(loginname.trim())
-				&& password != null && !"".equals(password.trim())) {
-			try {
+				&& password != null && !"".equals(password)) {
+			try {				
+				Md5PasswordEncoder md5 = new Md5PasswordEncoder();         
+		        md5.setEncodeHashAsBase64(false);   
+		        String pwd = md5.encodePassword(password, Constant.SALT);
+		        //System.out.println("pwd:" + pwd);
 				User user = userService.findUserByLoginName(loginname.trim());
-				if (password.equals(user.getLoginPassword())) {
+				if (pwd.equals(user.getLoginPassword())) {					
 					RunData runData = new RunData();
 					runData.setId(user.getId());
 					runData.setLoginName(user.getLoginName());

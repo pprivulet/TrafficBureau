@@ -50,11 +50,13 @@ public class EntryListController {
 			return new ModelAndView("error");
 		}
 	
-		int pageDelta = pagingService.getPageDelta();
+		//int pageDelta = pagingService.getPageDelta();
 		int pageBegin = pagingService.getFirstLinkedPage();		
 		int pageLast = pagingService.getLastLinkedPage();		
 		ArrayList<Entry> entryList = new ArrayList<Entry>();
+		
 		entryList = (ArrayList<Entry>) pagingService.getEntryList(category);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("entries", entryList);
 		map.put("idx", category);
@@ -65,17 +67,4 @@ public class EntryListController {
 		map.put("pageLast", pageLast);
 		return new ModelAndView("admin/entry", map);
 	}
-
-	/*
-	 * private Map<String,Object> getParam(HttpServletRequest request){
-	 * Map<String,Object> map = new HashMap<String,Object>(); String pageIndex =
-	 * request.getParameter("pageIndex"); String sub =
-	 * request.getParameter("sub"); map.put("sub",
-	 * sub==null||"".equals(sub.trim())?1:Integer.parseInt(sub));//新闻
-	 * map.put("pageIndex",
-	 * pageIndex==null||"".equals(pageIndex.trim())?1:Integer
-	 * .parseInt(pageIndex)); map.put("pageSize", 20); map.put("status",
-	 * "1");//已发布的 map.put("preferredOrder", "publish_date DESC"); return map; }
-	 */
-
 }

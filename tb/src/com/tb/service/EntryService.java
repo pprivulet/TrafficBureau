@@ -22,11 +22,13 @@ public interface EntryService {
 
 	Map<String, Object> findNewsByCondition(Map<String, Object> condition);
 
-	List<Entry> getLastEntries(int number, int category);	
+	List<Entry> getLastEntries(int number, int category, int importance);	
 	
 	List<Entry> getEntryList(int begin, int offset, int category);
 	 
     Integer getEntryNum(int category);
+
+    List<Entry> searchEntries(String title);
 
 }
 

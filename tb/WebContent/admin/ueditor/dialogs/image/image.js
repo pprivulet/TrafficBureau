@@ -774,7 +774,7 @@
                 data = this.imageList[i];
                 list.push({
                     src: prefix + data.url,
-                    _src: prefix + data.url,
+                    _src: prefix +  data.url,
                     title: data.title,
                     alt: data.original,
                     floatStyle: align

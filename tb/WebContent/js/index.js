@@ -37,3 +37,4 @@ function picChange(){																						//计时器功能
 	$("#pic-"+(num-1)).hide();
 	t=setTimeout("picChange()",1000)
 }
+

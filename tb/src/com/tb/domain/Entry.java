@@ -18,9 +18,9 @@ public class Entry extends BaseEntity{
 
     private String updateDate;
 
-    private Integer userId;
+    private Integer file;
 
-    private Integer status;
+    private Integer status;//0 not publish, 1 publish, 2 slide.
 
     private Integer listOrder;
     
@@ -80,12 +80,12 @@ public class Entry extends BaseEntity{
         this.updateDate = updateDate;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getFile() {
+        return file;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setFile(Integer file) {
+        this.file = file;
     }
 
     public Integer getStatus() {

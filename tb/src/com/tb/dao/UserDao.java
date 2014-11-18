@@ -8,4 +8,8 @@ public interface UserDao {
 	
 	Integer insertUser(User user);
 	
+	Integer updateUser(User user);
+
+	User findUserByID(int id);
+	
 }

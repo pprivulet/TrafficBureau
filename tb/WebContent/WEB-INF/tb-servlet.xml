@@ -22,5 +22,21 @@
 		<property name="order" value="2" />
 	</bean>
 
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 指定所上传文件的总大小不能超过80M......注意maxUploadSize属性的限制不是针对单个文件,而是所有文件的容量之和 -->
+		<property name="maxUploadSize" value="80000000" />
+	</bean>
+
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop
+					key="org.springframework.web.multipart.MaxUploadSizeExceededException">error_fileupload</prop>
+			</props>
+		</property>
+	</bean>
+
 
 </beans>

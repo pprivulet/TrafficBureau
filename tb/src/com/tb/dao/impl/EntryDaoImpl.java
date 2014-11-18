@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 
+
 //import com.tb.common.PageBean;
 import com.tb.dao.BaseDao;
 import com.tb.dao.EntryDao;
@@ -19,13 +20,7 @@ public class EntryDaoImpl extends BaseDao<Entry> implements EntryDao {
 	protected Class getEntityClass() {
 		return Entry.class;
 	}
-
-	// @Override
-	// public PageBean findNewsListBackend(Map<String, Object> paramsMap) {
-	// paramsMap.put("listSqlMap", "news.findBaseByCondition");
-	// paramsMap.put("countSqlMap", "news.findDataCount");
-	// return super.findPageBean(paramsMap);
-	// }
+	
 
 	@Override
 	public Integer deleteById(int id) {
@@ -60,12 +55,17 @@ public class EntryDaoImpl extends BaseDao<Entry> implements EntryDao {
 	// }
 
 	@Override
-	public List<Entry> getLastEntries(int number, int category) {
+	public List<Entry> getLastEntries(int number, int category, int importance) {
 		Map<String, Integer> params = new HashMap<String, Integer>();
-		params.put("begin", 0);
-		params.put("offset", number);
+		//params.put("begin", 0);
+		params.put("limit", number);
 		params.put("category", category);
-		return super.getList("entries.getList", params);
+		//System.out.println("importnance: "+importance);
+		if(importance > -1){
+			params.put("importance", importance);
+		}
+		//System.out.println(params);
+		return super.getList("entries.getLastEntries", params);
 	}
 
 	@Override
@@ -83,5 +83,21 @@ public class EntryDaoImpl extends BaseDao<Entry> implements EntryDao {
 		params.put("category", category);
 		Integer count = (Integer) findOtherType("entries.findDataCount", params);
 		return count;
+	}
+	
+	@Override
+	public List<Entry> getPublishedEntryList(int begin, int offset, int category) {
+		Map<String, Integer> params = new HashMap<String, Integer>();
+		params.put("begin", begin);
+		params.put("offset", offset);
+		params.put("category", category);
+		return super.getList("entries.getPublishedList", params);
+	}
+	
+	@Override
+	public List<Entry> searchEntries(String title){
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("title", title);
+		return super.getSearchResult("entries.search", params);
 	}
 }

@@ -61,13 +61,7 @@ public class PagingServiceImpl implements PagingService {
 	@Override
 	public void setPageDelta(int pageDelta) {
 		this.pageDelta = pageDelta;			
-	}
-	
-	
-	//@Override
-	//public void setPageCount(int pageCount) {		
-		//this.pageCount = pageCount;
-	//}
+	}	
 
 	@Override
 	public int getCurrentPage() {
@@ -137,6 +131,15 @@ public class PagingServiceImpl implements PagingService {
 		int begin = (pageNum-1) * this.pageSize;
 		int offset = this.pageSize;			
 		List<Entry> entryList = entryDao.getEntryList(begin, offset, category);
+		return entryList;
+	}
+	
+	@Override
+	public List getPublishedEntryList(int category) {
+		int pageNum = this.currentPage;
+		int begin = (pageNum-1) * this.pageSize;
+		int offset = this.pageSize;		
+		List<Entry> entryList = entryDao.getPublishedEntryList(begin, offset, category);
 		return entryList;
 	}
 

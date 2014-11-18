@@ -228,6 +228,10 @@ public abstract class BaseDao<E extends BaseEntity> extends
 		return getSqlMapClientTemplate().queryForList(statementName, params); 
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<E> getSearchResult(String statementName, Map<String, String> params){		
+		return getSqlMapClientTemplate().queryForList(statementName, params); 
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List findList(String statementName, Object parameterObject) {
@@ -284,4 +288,7 @@ public abstract class BaseDao<E extends BaseEntity> extends
 			return parameterObject;
 		}
 	}
+	
+
+	
 }

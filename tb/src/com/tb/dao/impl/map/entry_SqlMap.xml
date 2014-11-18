@@ -10,27 +10,56 @@
 		<result column="created" property="createDate" jdbcType="TIMESTAMP" />
 		<result column="published" property="publishDate" jdbcType="TIMESTAMP" />
 		<result column="updated" property="updateDate" jdbcType="TIMESTAMP" />
-		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="file" property="file" jdbcType="INTEGER" />
 		<result column="status" property="status" jdbcType="INTEGER" />
 		<result column="list_order" property="listOrder" jdbcType="INTEGER" />
 	</resultMap>
 
 	<select id="getLastEntries" resultMap="EntryResult">
-		select id, title, importance, category, created, published, updated, user_id, status,
+		select id, title, importance, category, created, published, updated, file, status,
 		list_order,content
-		from entries order by created desc limit 6
+		from entries 
+		where category=#category:INTEGER# and status>0 
+		<dynamic>			
+			<isNotNull prepend="AND" property="importance">
+				importance = #importance:INTEGER#
+			</isNotNull>			
+		</dynamic>			
+		order by published desc 
+		limit #limit:INTEGER#
 	</select>
 
+	
+	<select id="getPublishedList" resultMap="EntryResult">
+		select id, title, importance, category, created, published, updated, file, status,
+		list_order,content
+		from entries 
+		where category=#category:INTEGER# and status>0		
+		order by published desc limit
+		#begin:INTEGER# , #offset:INTEGER#
+	</select>
+	
+	
+	
 	<select id="getList" resultMap="EntryResult">
-		select id, title, importance, category, created, published, updated, user_id, status,
+		select id, title, importance, category, created, published, updated, file, status,
 		list_order,content
 		from entries where category=#category:INTEGER# order by created desc limit
 		#begin:INTEGER# , #offset:INTEGER#
 	</select>
 
+    <select id="search" resultMap="EntryResult"
+		parameterClass="java.util.Map">
+		select id, title, importance, category, created, published, updated, file,
+		status, list_order,content
+		from entries
+		where title like CONCAT('%',#title#,'%') and status > 0			
+	</select>
+
+
 	<select id="findBaseByCondition" resultMap="EntryResult"
 		parameterClass="java.util.Map">
-		select id, title, importance, category, created, published, updated, user_id,
+		select id, title, importance, category, created, published, updated, file,
 		status, list_order,content
 		from entries
 		<dynamic prepend="where">
@@ -82,7 +111,7 @@
 
 	<select id="selectByPrimaryKey" resultMap="EntryResult"
 		parameterClass="java.lang.Integer">
-		select id, title, importance, category, created, published, updated, user_id, status,
+		select id, title, importance, category, created, published, updated, file, status,
 		list_order,content
 		from entries
 		where id = #id:INTEGER#
@@ -101,11 +130,11 @@
 
 	<insert id="insert" parameterClass="com.tb.domain.Entry">
 		insert into entries (title, importance, category, created, published, updated,
-		user_id, status,
+		file, status,
 		list_order, content)
 		values (#title:VARCHAR#, #importance:INTEGER#, #category:INTEGER#,
 		#createDate:TIMESTAMP#,
-		#publishDate:TIMESTAMP#, #updateDate:TIMESTAMP#, #userId:INTEGER#, #status:INTEGER#,
+		#publishDate:TIMESTAMP#, #updateDate:TIMESTAMP#, #file:INTEGER#, #status:INTEGER#,
 		#listOrder:INTEGER#, #content:LONGVARCHAR#)
 		<selectKey keyProperty="id" resultClass="java.lang.Integer">
 			select @@IDENTITY as id
@@ -121,7 +150,7 @@
 		created = #createDate:TIMESTAMP#,
 		published = #publishDate:TIMESTAMP#,
 		updated = #updateDate:TIMESTAMP#,
-		user_id = #userId:INTEGER#,
+		file = #file:INTEGER#,
 		status = #status:INTEGER#,
 		list_order = #listOrder:INTEGER#,
 		content = #content:LONGVARCHAR#
@@ -149,8 +178,8 @@
 			<isNotNull prepend="," property="publishDate">
 				published = #publishDate:TIMESTAMP#
 			</isNotNull>
-			<isNotNull prepend="," property="userId">
-				user_id = #userId:INTEGER#
+			<isNotNull prepend="," property="file">
+				file = #file:INTEGER#
 			</isNotNull>
 			<isNotNull prepend="," property="status">
 				status = #status:INTEGER#
